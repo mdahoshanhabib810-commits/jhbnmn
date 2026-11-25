@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aura Studio | শপ ও ড্যাশবোর্ড</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- নেভিগেশন বার -->
+    <header>
+        <div class="logo">AURA <span>STUDIO</span></div>
+        <nav id="shop-nav">
+            <a href="#home">হোম</a>
+            <a href="#products">প্রোডাক্টসমূহ</a>
+            <a href="#order-guide">অর্ডার নিয়ম</a>
+        </nav>
+        <div class="header-actions">
+            <button id="view-switch-btn" class="dash-link" onclick="toggleView()">⚙️ ড্যাশবোর্ড</button>
+            <button id="header-cart-btn" class="cart-btn" onclick="toggleCart()">
+                🛒 কার্ট (<span id="cart-count">0</span>)
+            </button>
+        </div>
+    </header>
+
+    <!-- ===================================== -->
+    <!-- ১. শপ ভিউ (Shop View)               -->
+    <!-- ===================================== -->
+    <div id="shop-view">
+        <!-- হিরো ব্যানার -->
+        <section id="home" class="hero">
+            <h1>স্বাগতম <span>Aura Studio</span>-তে</h1>
+            <p>শার্ট, প্যান্ট, শীতের প্রিমিয়াম হুডি, কম্পিউটার এক্সেসরিজ এবং হাত ও টেবিল ঘড়ির ৫০টি এক্সক্লুসিভ কালেকশন।</p>
+            <a href="#products" class="btn">কালেকশন দেখুন</a>
+        </section>
+
+        <!-- অর্ডার করার নিয়মাবলী -->
+        <section id="order-guide" class="guide-section">
+            <h2>অর্ডার করার সহজ নিয়ম</h2>
+            <div class="steps">
+                <div class="step">১. ক্যাটাগরি থেকে পছন্দের পণ্য ও <b>সাইজ</b> সিলেক্ট করে <b>"কার্টে যোগ করুন"</b> ক্লিক করুন।</div>
+                <div class="step">২. উপরে ডানপাশের <b>"কার্ট"</b> বাটনে ক্লিক করে আপনার অর্ডার তালিকা চেক করুন।</div>
+                <div class="step">৩. আপনার নাম, ফোন নম্বর ও ঠিকানা লিখে অর্ডার কনফার্ম করুন।</div>
+                <div class="step">৪. পণ্য হাতে পেয়ে ডেলিভারি ম্যানকে টাকা দিন (Cash on Delivery)।</div>
+            </div>
+        </section>
+
+        <!-- প্রোডাক্ট সেকশন -->
+        <section id="products" class="products-section">
+            <div class="section-header">
+                <h2>আমাদের কালেকশন (<span id="total-prod-count">50</span>টি প্রোডাক্ট)</h2>
+            </div>
+
+            <!-- ক্যাটাগরি ফিল্টার বাটন -->
+            <div class="filter-controls">
+                <button class="filter-btn active" onclick="filterCategory('All', this)">সব প্রোডাক্ট</button>
+                <button class="filter-btn" onclick="filterCategory('Shirt', this)">শার্ট</button>
+                <button class="filter-btn" onclick="filterCategory('Pant', this)">প্যান্ট</button>
+                <button class="filter-btn" onclick="filterCategory('Hoodie', this)">শীতের হুডি</button>
+                <button class="filter-btn" onclick="filterCategory('Computer', this)">কম্পিউটার ও টেক</button>
+                <button class="filter-btn" onclick="filterCategory('Watch', this)">হাতঘড়ি ও ছোট ঘড়ি</button>
+            </div>
+
+            <!-- সার্চ বার -->
+            <div class="search-bar">
+                <input type="text" id="search-input" onkeyup="searchProducts()" placeholder="প্রোডাক্টের নাম লিখে খুঁজুন (যেমন: হুডি, শার্ট, ঘড়ি, মাউস)...">
+            </div>
+
+            <div class="product-grid" id="product-list">
+                <!-- জাভাস্ক্রিপ্ট থেকে ৫০টি প্রোডাক্ট লোড হবে -->
+            </div>
+        </section>
+    </div>
+
+    <!-- ===================================== -->
+    <!-- ২. ড্যাশবোর্ড ভিউ (Dashboard View)     -->
+    <!-- ===================================== -->
+    <div id="dashboard-view" style="display: none;">
+        <div class="dash-container">
+            <h2 style="margin-bottom: 20px;">Aura Studio - স্টোর ম্যানেজমেন্ট ড্যাশবোর্ড</h2>
+
+            <!-- ওভারভিউ কার্ড -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h4>মোট প্রোডাক্ট</h4>
+                    <p id="dash-total-products">0</p>
+                </div>
+                <div class="stat-card">
+                    <h4>মোট অর্ডার</h4>
+                    <p id="dash-total-orders">0</p>
+                </div>
+                <div class="stat-card">
+                    <h4>মোট বিক্রি (৳)</h4>
+                    <p id="dash-total-sales">৳ 0</p>
+                </div>
+                <div class="stat-card">
+                    <h4>স্টোর স্ট্যাটাস</h4>
+                    <p style="color: #16a34a; font-size: 20px;">● লাইভ (Active)</p>
+                </div>
+            </div>
+
+            <div class="dash-grid">
+                <!-- নতুন প্রোডাক্ট যোগ করার ফর্ম -->
+                <div class="dash-box">
+                    <h3>+ নতুন প্রোডাক্ট যোগ করুন</h3>
+                    <form class="dash-form" onsubmit="addNewProduct(event)">
+                        <input type="text" id="new-name" placeholder="প্রোডাক্টের নাম (যেমন: প্রিমিয়াম হুডি)" required>
+                        <select id="new-category" required>
+                            <option value="Shirt">শার্ট (Shirt)</option>
+                            <option value="Pant">প্যান্ট (Pant)</option>
+                            <option value="Hoodie">শীতের হুডি (Hoodie)</option>
+                            <option value="Computer">কম্পিউটার ও টেক (Computer)</option>
+                            <option value="Watch">ঘড়ি (Watch)</option>
+                        </select>
+                        <input type="number" id="new-price" placeholder="দাম (টাকায়)" required>
+                        <input type="text" id="new-sizes" placeholder="সাইজ (কমা দিয়ে লিখুন: M, L, XL)" required>
+                        <input type="text" id="new-desc" placeholder="সংক্ষিপ্ত বিবরণ" required>
+                        <input type="url" id="new-img" placeholder="ছবির লিংক (URL)" required>
+                        <button type="submit" class="submit-btn">শপে প্রোডাক্ট যুক্ত করুন</button>
+                    </form>
+                    <button onclick="resetDefaultProducts()" style="margin-top: 15px; width: 100%; padding: 8px; background: #64748b; color: white; border: none; border-radius: 5px; cursor: pointer;">ডিফল্ট ৫০টি প্রোডাক্ট রিসেট করুন</button>
+                </div>
+
+                <!-- অর্ডার ও প্রোডাক্ট তালিকা -->
+                <div>
+                    <!-- সাম্প্রতিক অর্ডার লিস্ট -->
+                    <div class="dash-box">
+                        <h3>সাম্প্রতিক কাস্টমার অর্ডারসমূহ</h3>
+                        <div style="overflow-x: auto;">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>কাস্টমার</th>
+                                        <th>ফোন ও ঠিকানা</th>
+                                        <th>পণ্য ও সাইজ</th>
+                                        <th>মোট বিল</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="dash-order-list"></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- সব প্রোডাক্ট ম্যানেজমেন্ট -->
+                    <div class="dash-box">
+                        <h3>প্রোডাক্ট তালিকা (<span id="table-prod-count">0</span>টি)</h3>
+                        <div style="overflow-x: auto; max-height: 450px;">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>ছবি</th>
+                                        <th>নাম</th>
+                                        <th>ক্যাটাগরি</th>
+                                        <th>দাম</th>
+                                        <th>অ্যাকশন</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="dash-product-list"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- শপিং কার্ট মোডাল -->
+    <div id="cart-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="toggleCart()">&times;</span>
+            <h2>Aura Studio - শপিং কার্ট</h2>
+            <div id="cart-items"></div>
+            <h3 class="total-price">পণ্যের মোট বিল: ৳ <span id="total-amount">0</span></h3>
+            
+            <hr>
+            <h3>ডেলিভারি তথ্য দিন</h3>
+            <form id="order-form" onsubmit="submitOrder(event)">
+                <input type="text" id="cust-name" placeholder="আপনার পূর্ণ নাম" required>
+                <input type="tel" id="cust-phone" placeholder="মোবাইল নম্বর (যেমন: 017XXXXXXXX)" required>
+                <textarea id="cust-address" placeholder="সম্পূর্ণ ঠিকানা (বাসা নং, রোড, থানা, জেলা)" required></textarea>
+                <select id="delivery-area">
+                    <option value="60">ঢাকার ভেতরে ডেলিভারি চার্জ (৳ ৬০)</option>
+                    <option value="120">ঢাকার বাইরে ডেলিভারি চার্জ (৳ ১২০)</option>
+                </select>
+                <button type="submit" class="submit-btn">অর্ডার কনফার্ম করুন</button>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Aura Studio | সর্বস্বত্ব সংরক্ষিত</p>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>
